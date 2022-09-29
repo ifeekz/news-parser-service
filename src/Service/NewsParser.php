@@ -3,14 +3,23 @@
 namespace App\Service;
 
 use Goutte\Client;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class NewsParser
 {
+    private $params;
+
+    public function __construct(ContainerBagInterface $params)
+    {
+        $this->params = $params;
+    }
+
     /**
      * @param data
      */
-    public static function scrape($data): array
+    public function scrape($data): array
     {
+        // TO DO: Accept site argument and use site parameter from config service
         $url = $data['url'];
         $titlesXPath = $data['titlesXPath'];
         $descriptionsXPath = $data['descriptionsXPath'];
@@ -26,11 +35,11 @@ class NewsParser
         $descriptionsArray = [];
         $picturesArray = [];
         foreach ($descriptions as $key => $description) {
-            $descriptionsArray[] = ['description' => $description->textContent];
+            $descriptionsArray[] = $description->textContent;
         }
 
         foreach ($pictures as $key => $picture) {
-            $picturesArray[] = ['picture' => $picture];
+            $picturesArray[] = $picture;
         }
         
         foreach ($titles as $key => $title) {

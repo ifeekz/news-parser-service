@@ -3,5 +3,9 @@
 
 {% block content %}
     <h1>News</h1>
-    <div>{{ dump(books) }}</div>
+    {% for data in news %}
+    <div>
+        <div>{{ data.title }}</div>
+    </div>
+    {% endfor %}
 {% endblock %}
